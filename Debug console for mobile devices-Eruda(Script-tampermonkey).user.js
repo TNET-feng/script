@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         移动端网页调试控制台(Eruda)
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.2
 // @description  
-// @author       You
+// @author       TNET-feng
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
