@@ -1,12 +1,12 @@
 // ==UserScript==
 
-// @name         移动端网页调试控制台(Eruda)
+// @name         Eruda
 
 // @namespace    http://tampermonkey.net/
 
-// @version      1.3
+// @version      1.4
 
-// @description  在移动端网页上注入Eruda控制台
+// @description  Eruda
 
 // @author       TNET-feng
 
