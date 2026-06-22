@@ -4,7 +4,7 @@
 
 // @namespace    http://tampermonkey.net/
 
-// @version      3.0
+// @version      3.1
 
 // @description  修复已知问题
 
