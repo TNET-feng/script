@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Webshell Terminal
+// @name         Webshell_PHP
 // @namespace    http://tampermonkey.net/
 // @version      7.5
 // @description  No
