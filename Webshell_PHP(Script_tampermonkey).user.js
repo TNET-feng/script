@@ -90,7 +90,7 @@
                 <div class="wt-dot wt-yellow"></div>
                 <div class="wt-dot wt-green"></div>
             </div>
-            <div id="wt-title">Webshell Terminal v7.2 by TNET-feng</div>
+            <div id="wt-title">Webshell Terminal PHP by TNET-feng</div>
             <div style="width: 40px;"></div> <!-- Spacer -->
         </div>
         <div id="wt-body">
