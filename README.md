@@ -1,6 +1,8 @@
 # Precautions
  [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) are designed for mobile device
 
+Due to energy constraints,[Website Path Scanner](https://github.com/TNET-feng/script/blob/main/WebsitePathScanner%28Script_tampermonkey%29.user.js)  will not continue to update in the short term
+
 For learning only.
 
 #  Instructions for Use
