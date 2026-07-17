@@ -10,6 +10,8 @@
 Due to energy constraints,[Website Path Scanner](https://github.com/TNET-feng/script/blob/main/WebsitePathScanner%28Script_tampermonkey%29.user.js)  will not continue to update in the short term
 
 
+---
+
 
 <h1 align="center">Instructions for Use</h1>
 
