@@ -12,4 +12,4 @@ For learning only.
 
 Because the script can render limited functions,[WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) are necessary to keep access to the Trojan file during use.
 
-To [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) , Their supporting documents are in [WebShell](https://github.com/TNET-feng/WebShell)
+To [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) , their supporting documents are in [WebShell](https://github.com/TNET-feng/WebShell)
