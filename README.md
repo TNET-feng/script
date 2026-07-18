@@ -9,7 +9,7 @@
 ### 1. WebShell_PHP & WebShell_JSP
 - **Target Platform:** Designed specifically for mobile devices.
 - **Recommended Environment:** Best used with Tampermonkey on the Microsoft Edge browser.
-- **Documentation:** Please refer to the [WebShell]() directory for related docs.
+- **Documentation:** Please refer to the [WebShell](https://github.com/TNET-feng/WebShell) directory for related docs.
 - **Scripts:**
     - [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js)
     - [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js)
