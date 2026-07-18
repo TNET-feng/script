@@ -32,7 +32,7 @@
 > Enabling both scripts simultaneously will cause the webpage to crash.
 
 - **Runtime Dependency:** Due to limited script rendering capabilities, you must maintain access to the Trojan file during usage.
-- **Matching Configs:** For `WebShell_PHP` and `WebShell_JSP`, please ensure you check their matching documentation in the [WebShell]() folder.
+- **Matching Configs:** For `WebShell_PHP` and `WebShell_JSP`, please ensure you check their matching documentation in the [WebShell](https://github.com/TNET-feng/WebShell) folder.
 
 ### 🔍 About Website Path Scanner
 
