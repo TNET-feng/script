@@ -1,28 +1,42 @@
-<h1 align="center">Precautions</h1>
+# 🛠️ Script
 
-<p style="color:red;" align="center">⚠️⚠️For learning only⚠️⚠️</p>
-
-## WebShell_PHP & WebShell_JSP
- [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) are designed for mobile device.Recommended run in Tampermonkey in Microsoft Edge.
-
-## Website Path Scanner
-
-Due to energy constraints,[Website Path Scanner](https://github.com/TNET-feng/script/blob/main/WebsitePathScanner%28Script_tampermonkey%29.user.js)  will not continue to update in the short term.
-
+> **⚠️ Disclaimer:** This repository is intended for educational and research purposes only. Please do not use it for any illegal activities.
 
 ---
 
+## 📂 Scripts Overview
 
-<h1 align="center">Instructions for Use</h1>
+### 1. WebShell_PHP & WebShell_JSP
+- **Target Platform:** Designed specifically for mobile devices.
+- **Recommended Environment:** Best used with Tampermonkey on the Microsoft Edge browser.
+- **Documentation:** Please refer to the [WebShell]() directory for related docs.
+- **Scripts:**
+    - [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js)
+    - [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js)
 
-## WebShell_PHP & WebShell_JSP
+### 2. Website Path Scanner
+- **Status:** Due to limited resources, this script will not be updated in the short term.
+- **Mechanism:** Utilizes a built-in dictionary for path scanning.
+- **Script:**
+    - [Website Path Scanner](https://github.com/TNET-feng/script/blob/main/WebsitePathScanner%28Script_tampermonkey%29.user.js)
 
-[WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) are cannot be used simultaneously. Otherwise, it will cause the webpage to crash.
+---
 
-Because the script can render limited functions,[WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) are necessary to keep access to the Trojan file during use.
+## 📖 Instructions for Use
 
-To [WebShell_PHP](https://github.com/TNET-feng/script/blob/main/Webshell_PHP%28Script_tampermonkey%29.user.js) and [WebShell_JSP](https://github.com/TNET-feng/script/blob/main/Webshell_JSP%28Script_tampermonkey%29.user.js) , their matching documents are in [WebShell](https://github.com/TNET-feng/WebShell).
+### ⚠️ Important Notes for WebShell_PHP & WebShell_JSP
 
-## Website Path Scanner
+> **❗ CRITICAL WARNING: DO NOT ENABLE SIMULTANEOUSLY!**
+>
+> `WebShell_PHP` and `WebShell_JSP` **cannot be used at the same time**.
+> Enabling both scripts simultaneously will cause the webpage to crash.
 
-[Website Path Scanner](https://github.com/TNET-feng/script/blob/main/WebsitePathScanner%28Script_tampermonkey%29.user.js)  uses a dictionary,dictionary is embedded inside the script.
+- **Runtime Dependency:** Due to limited script rendering capabilities, you must maintain access to the Trojan file during usage.
+- **Matching Configs:** For `WebShell_PHP` and `WebShell_JSP`, please ensure you check their matching documentation in the [WebShell]() folder.
+
+### 🔍 About Website Path Scanner
+
+- This script performs scanning using an internal dictionary.
+
+---
+
