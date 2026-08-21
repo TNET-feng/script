@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Webshell_JSP
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  No
-// @author       TNET-feng
+// @author       FengPwner
 // @match        *://*/*
 // @grant        none
 // @run-at       document-end
