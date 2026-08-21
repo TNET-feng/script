@@ -183,20 +183,18 @@
 
 };
 
-        // --- 绑定事件 ---
+        
 
-             // 监听 mousedown 和 touchstart
-             header.addEventListener('mousedown', startDrag);
+                          header.addEventListener('mousedown', startDrag);
              header.addEventListener('touchstart', startDrag, { passive: false });
 
-             // 移动：监听 mousemove 和 touchmove (绑定 document )
-             document.addEventListener('mousemove', onDrag);
+                          document.addEventListener('mousemove', onDrag);
              document.addEventListener('touchmove', onDrag, { passive: false });
 
-             // 结束：监听 mouseup 和 touchend
+             
              document.addEventListener('mouseup', stopDrag);
              document.addEventListener('touchend', stopDrag);
-    // --- 拖拽逻辑结束 ---
+    
 
     
     async function sendCommand(cmd) {
