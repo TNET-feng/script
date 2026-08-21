@@ -1,55 +1,29 @@
 // ==UserScript==
-
 // @name         Eruda
-
 // @namespace    http://tampermonkey.net/
-
-// @version      1.4
-
+// @version      1.5
 // @description  Eruda
-
-// @author       TNET-feng
-
+// @author       FengPwner
 // @match        *://*/*
-
 // @match        edge://newtab/*
-
 // @match        edge://startpage/*
-
 // @match        about:blank
-
 // @match        about:home
-
 // @match        about:newtab
-
 // @match        *://cn.bing.com/*
-
 // @match        *://*.bing.com/*
-
 // @match        *://bing.com/*
-
 // @match        */*
-
 // @match        edge://*/*
-
 // @match        chrome://*/*
-
 // @match        about:*
-
 // @match        file:///*
-
 // @match        data:*
-
 // @match        blob:*
-
 // @match        javascript:*
-
 // @match        *://*.github.com/*
-
 // @include      *
-
 // @grant        none
-
 // ==/UserScript==
 
 (function() {
