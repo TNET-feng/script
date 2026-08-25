@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Webshell_JSP
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  No
 // @author       FengPwner
 // @match        *://*/*
@@ -146,7 +146,7 @@
         isDragging = false;
 
 };
-                                  header.addEventListener('mousedown', startDrag);
+             header.addEventListener('mousedown', startDrag);
              header.addEventListener('touchstart', startDrag, { passive: false });                          document.addEventListener('mousemove', onDrag);
              document.addEventListener('touchmove', onDrag, { passive: false });             
              document.addEventListener('mouseup', stopDrag);
