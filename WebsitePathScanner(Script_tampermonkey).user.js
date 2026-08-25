@@ -1,85 +1,45 @@
 // ==UserScript==
-
 // @name         网站路径扫描器
-
 // @namespace    http://tampermonkey.net/
-
-// @version      3.1
-
+// @version      3.3
 // @description  修复已知问题
-
-// @author       TNET-feng & DeepSeek
-
+// @author       FengPwner
 // @match        *://*/*
-
 // @grant        GM_xmlhttpRequest
-
 // @grant        GM_addStyle
-
 // @grant        GM_notification
-
 // ==/UserScript==
 
 (function() {
-
     'use strict';
-
     const pathDictionary = [".DS_Store", ".env", ".env.development", ".env.example", ".env.local", ".env.production", ".env.test", ".git", ".git/HEAD", ".git/config", ".git/index", ".git/logs/HEAD", ".git/refs/heads/master", ".gitattributes", ".gitignore", ".hg", ".hg/store/00manifest.i", ".htaccess", ".htpasswd", ".idea", ".npmrc", ".prettierrc", ".settings", ".ssh", ".svn", ".svn/entries", ".vscode", ".well-known", ".yarnrc", "_vti_bin", "_vti_cnf", "_vti_log", "_vti_pvt", "_vti_txt", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "about", "access", "account", "accounts", "action", "admin", "admin.php", "admin/account", "admin/admin", "admin/console", "admin/control", "admin/dashboard", "admin/home", "admin/login", "admin/panel", "admin_area", "admin_area/admin", "admin_area/login", "admincp", "administrator", "ajax", "alpha", "api", "api/v1", "api/v2", "api/v3", "api/v4", "api/v5", "app", "app.php", "apps", "archive", "archives", "article", "articles", "asset", "assets", "auth", "authentication", "backup", "backup.sql", "backup.tar.gz", "backup.zip", "backups", "base", "beta", "bin", "blog", "blogs", "boot", "brand", "brands", "browse", "buffer", "buffers", "cgi", "cgi-bin", "change-password", "chat", "chats", "checkout", "client", "clients", "cluster", "clusters", "code", "comment", "comments", "community", "communities", "config", "config.bak", "config.inc.php", "config.ini", "config.json", "config.php", "config.txt", "config.yml", "configuration", "connect", "console", "contact", "content", "contents", "control", "controlpanel", "cookie", "cookies", "cp", "cron", "crossdomain.xml", "css", "customer", "customers", "data", "database", "database/backup", "database/export", "database/import", "db", "db/backup", "db/export", "db/import", "dbadmin", "dba", "debug", "default", "demo", "deploy", "dev", "developer", "developers", "development", "discussion", "discussions", "doc", "docs", "document", "documents", "download", "downloads", "dump.sql", "e", "efi", "email", "env", "error", "error.log", "example", "examples", "export", "faq", "faqs", "favicon.ico", "file", "files", "filter", "filters", "find", "firewall", "firewalls", "forgot-password", "forum", "forums", "friend", "friends", "front", "frontend", "ftp", "function", "functions", "gate", "gateway", "gateways", "git", "global", "goods", "graphql", "group", "groups", "guest", "guests", "guide", "guides", "help", "hidden", "home", "host", "hosts", "howto", "html", "icon", "image", "images", "img", "import", "include", "includes", "index", "index.php", "info", "info.php", "init", "install", "installation", "interface", "interfaces", "internal", "invoice", "invoices", "item", "items", "java", "javascript", "js", "json", "jsp", "kb", "knowledgebase", "lib", "lib64", "like", "likes", "live", "loadbalancer", "local", "log", "login", "logs", "m", "main", "maintenance", "manage", "manager", "manifest.json", "market", "markets", "media", "member", "members", "memcached", "message", "messages", "metrics", "mongo", "mongodb", "monitor", "monitoring", "mysql", "myadmin", "n", "network", "networks", "new", "news", "node", "nodes", "oauth", "oauth2", "old", "openid", "operator", "opt", "option", "options", "order", "orders", "p", "package.json", "package-lock.json", "page", "pages", "panel", "password", "passwd", "payment", "payments", "perf", "performance", "permission", "permissions", "person", "photo", "photos", "php", "phpinfo.php", "phpmyadmin", "picture", "pictures", "pma", "plugin", "plugins", "portal", "portals", "post", "posts", "preference", "preferences", "preprod", "proc", "prod", "production", "profile", "profiles", "protected", "proxy", "proxies", "public", "purchase", "purchases", "py", "python", "qa", "query", "queries", "r", "rating", "ratings", "rb", "recover", "redis", "register", "registration", "report", "reports", "repository", "repositories", "reset-password", "resource", "resources", "rest", "review", "reviews", "robots.txt", "root", "s", "sample", "samples", "sandbox", "search", "secure", "security", "security.txt", "server", "servers", "service", "services", "session", "sessions", "setting", "settings", "setup", "share", "shared", "shield", "shipping", "shop", "shops", "signin", "signup", "soap", "social", "software", "source", "sql", "sso", "stage", "staging", "start", "stat", "static", "stats", "status", "store", "stores", "story", "stories", "superadmin", "superuser", "support", "svn", "sys", "sysadmin", "system", "systems", "tag", "tags", "talk", "talks", "team", "teams", "temp", "test", "testing", "tmp", "token", "tokens", "tool", "tools", "topic", "topics", "trace", "tutorial", "tutorials", "upload", "uploads", "url", "user", "user/account", "user/dashboard", "user/home", "user/profile", "user/settings", "users", "usr", "utility", "utilities", "var", "vendor", "version", "video", "videos", "visitor", "visitors", "volatile", "w", "webadmin", "webapp", "webapps", "webconfig", "webmaster", "webhook", "webhooks", "welcome", "widget", "widgets", "wp-admin", "wp-config.php", "wp-content", "wp-includes", "wp-login.php", "wp-settings.php", "xml", "xmlrpc.php", "yarn.lock", "z"].sort();
-
     const errorKeywords = ['not found', '404', 'doesn\'t exist', 'page cannot be found', 'page not found', 'error', '找不到', '页面不存在', '無法找到', '404 error', '未找到'];
-
     const loginKeywords = ['login', 'sign in', 'username', 'password', 'log in', 'signin', 'authenticate', '登录', '帳號', '密码', '密碼', '登陆', '账号'];
-
     let isScanning = false;
-
     let scannedCount = 0;
-
     let foundPaths = [];
-
     let currentTimeoutIds = [];
-
     let isUIVisible = false;
-
     GM_addStyle(`
-
         #path-scanner-ui {
-
             position: fixed;
-
             top: 60px;
-
             right: 20px;
-
             background: white;
-
             padding: 15px;
-
             border: 2px solid #007bff;
-
             border-radius: 8px;
-
             z-index: 10000;
-
             width: 500px;
-
             max-height: 80vh;
-
             overflow-y: auto;
-
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-
             font-family: Arial, sans-serif;
-
             font-size: 12px;
-
             display: none;
-
         }
-
         #path-scanner-ui.visible {
-
             display: block;
-
         }
 
         #scanner-toggle-btn {
@@ -687,145 +647,73 @@
                 }
 
                 if (resultType) {
-
                     foundPaths.push({url: url, status: response.status, type: resultType, reason: reason});
-
                     addResult(url, response.status, resultType, reason, statusEmoji);
-
                 }
-
                 const progress = (scannedCount / pathDictionary.length) * 100;
-
                 updateProgress(`扫描中... ${scannedCount}/${pathDictionary.length} - 找到 ${foundPaths.length} 个路径`, progress);
-
                 updateStats();
-
                 if (scannedCount === pathDictionary.length) finishScan();
-
             },
-
             onerror: () => handleScanProgress(),
-
             ontimeout: () => handleScanProgress()
-
         });
-
     }
-
     function handleScanProgress() {
-
         if (!isScanning) return;
-
         scannedCount++;
-
         const progress = (scannedCount / pathDictionary.length) * 100;
-
         updateProgress(`扫描中... ${scannedCount}/${pathDictionary.length} - 找到 ${foundPaths.length} 个路径`, progress);
-
         if (scannedCount === pathDictionary.length) finishScan();
-
     }
-
     function addResult(url, status, type, reason, emoji) {
-
         const resultsContainer = document.getElementById('results-container');
-
         const resultItem = document.createElement('div');
-
         resultItem.className = `result-item ${type}`;
-
         resultItem.innerHTML = `<div class="result-status">${emoji} [${status}] ${reason}</div><div class="result-url">${url}</div>`;
-
         resultItem.addEventListener('click', () => window.open(url, '_blank'));
-
         resultsContainer.appendChild(resultItem);
-
         resultsContainer.scrollTop = resultsContainer.scrollHeight;
-
     }
-
     function updateProgress(message, progress) {
-
         const progressElement = document.getElementById('scan-progress').firstChild;
-
         progressElement.textContent = message;
-
         updateProgressBar(progress);
-
     }
-
     function updateProgressBar(progress) {
-
-        document.getElementById('progress-fill').style.width = progress + '%';
-
+    document.getElementById('progress-fill').style.width = progress + '%';
     }
-
     function updateStats() {
-
         const stats = {
-
             success: foundPaths.filter(p => p.type === 'success').length,
-
             warning: foundPaths.filter(p => p.type === 'warning').length,
-
             info: foundPaths.filter(p => p.type === 'info').length,
-
             error: foundPaths.filter(p => p.type === 'error').length,
-
             redirect: foundPaths.filter(p => p.type === 'redirect').length
-
         };
-
         const statElements = document.querySelectorAll('.stat-item');
-
         statElements[0].innerHTML = `<span class="stat-dot stat-success"></span> 真实页面: ${stats.success}`;
-
         statElements[1].innerHTML = `<span class="stat-dot stat-warning"></span> 虚拟路径: ${stats.warning}`;
-
         statElements[2].innerHTML = `<span class="stat-dot stat-info"></span> 需要登录: ${stats.info}`;
-
         statElements[3].innerHTML = `<span class="stat-dot stat-error"></span> 无权限: ${stats.error}`;
-
         statElements[4].innerHTML = `<span class="stat-dot stat-redirect"></span> 重定向: ${stats.redirect}`;
-
     }
-
     function finishScan() {
-
         isScanning = false;
-
         document.getElementById('scan-button').disabled = false;
-
         document.getElementById('stop-button').disabled = true;
-
         updateProgress(`扫描完成! 共找到 ${foundPaths.length} 个有效路径`, 100);
-
-
-
         if (foundPaths.length > 0) {
-
             GM_notification({
-
                 text: `扫描完成！找到 ${foundPaths.length} 个路径`,
-
                 title: '路径扫描器',
-
                 timeout: 3000
-
             });
-
         }
-
     }
-
     if (document.readyState === 'loading') {
-
         document.addEventListener('DOMContentLoaded', createScannerUI);
-
     } else {
-
         createScannerUI();
-
     }
-
 })();
