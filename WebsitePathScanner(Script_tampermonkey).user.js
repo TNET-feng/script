@@ -41,275 +41,140 @@
         #path-scanner-ui.visible {
             display: block;
         }
-
         #scanner-toggle-btn {
-
             position: fixed;
-
             top: 20px;
-
             right: 20px;
-
             background: #007bff;
-
             color: white;
-
             border: none;
-
             padding: 10px;
-
             border-radius: 50%;
-
             cursor: pointer;
-
             z-index: 9999;
-
             width: 40px;
-
             height: 40px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             font-size: 16px;
-
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-
         }
-
         #scanner-toggle-btn:hover {
-
             background: #0056b3;
-
         }
-
         #scanner-header {
-
             margin: 0 0 10px 0;
-
             color: #007bff;
-
             font-size: 16px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
             padding: 10px;
-
             background: #f8f9fa;
-
             border-radius: 4px;
-
         }
-
         #scan-controls {
-
             margin-bottom: 15px;
-
             display: flex;
-
             gap: 10px;
-
         }
-
         #scan-button, #stop-button {
-
             padding: 8px 16px;
-
             border: none;
-
             border-radius: 4px;
-
             cursor: pointer;
-
             font-weight: bold;
-
             flex: 1;
-
         }
-
         #scan-button {
-
             background: #007bff;
-
             color: white;
-
         }
-
         #scan-button:disabled {
-
             background: #6c757d;
-
         }
-
         #stop-button {
-
             background: #dc3545;
-
             color: white;
-
         }
-
         #stop-button:disabled {
-
             background: #6c757d;
-
         }
-
         #refresh-target, #hide-scanner {
-
             padding: 8px 12px;
-
             border: none;
-
             border-radius: 4px;
-
             cursor: pointer;
-
             background: #28a745;
-
             color: white;
-
         }
-
         #hide-scanner {
-
             background: #6c757d;
-
         }
-
         #scan-progress {
-
             margin: 10px 0;
-
             padding: 8px;
-
             background: #f8f9fa;
-
             border-radius: 4px;
-
             font-size: 11px;
-
         }
-
         .progress-bar {
-
             width: 100%;
-
             height: 8px;
-
             background: #e9ecef;
-
             border-radius: 4px;
-
             margin-top: 5px;
-
             overflow: hidden;
-
         }
-
         .progress-fill {
-
             height: 100%;
-
             background: #28a745;
-
             width: 0%;
-
         }
-
         #scan-results {
-
             border-top: 1px solid #eee;
-
             padding-top: 10px;
-
             max-height: 300px;
-
             overflow-y: auto;
-
         }
-
         .result-item {
-
             margin: 5px 0;
-
             padding: 8px;
-
             border-left: 4px solid #28a745;
-
             background: #f8f9fa;
-
             font-size: 11px;
-
             word-break: break-all;
-
             border-radius: 3px;
-
             cursor: pointer;
-
         }
-
         .result-item:hover {
-
             background: #e9ecef;
-
         }
-
         .result-item.error { border-left-color: #dc3545; }
-
         .result-item.warning { border-left-color: #ffc107; }
-
         .result-item.info { border-left-color: #17a2b8; }
-
         .result-item.redirect { border-left-color: #6f42c1; }
-
         .result-status {
-
             font-weight: bold;
-
             margin-bottom: 3px;
-
         }
-
         .result-url {
-
             color: #0056b3;
-
         }
-
         .stats {
-
             display: flex;
-
             justify-content: space-between;
-
             margin-top: 10px;
-
             font-size: 11px;
-
             flex-wrap: wrap;
-
             gap: 5px;
-
         }
-
         .stat-item {
-
             display: flex;
-
             align-items: center;
-
             gap: 3px;
-
         }
-
         .stat-dot {
 
             width: 8px;
