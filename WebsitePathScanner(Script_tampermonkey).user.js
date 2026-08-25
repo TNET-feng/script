@@ -176,267 +176,126 @@
             gap: 3px;
         }
         .stat-dot {
-
             width: 8px;
-
             height: 8px;
-
             border-radius: 50%;
-
         }
-
         .stat-success { background: #28a745; }
-
         .stat-warning { background: #ffc107; }
-
         .stat-error { background: #dc3545; }
-
         .stat-info { background: #17a2b8; }
-
         .stat-redirect { background: #6f42c1; }
-
         .current-url {
-
             margin: 5px 0;
-
             padding: 5px;
-
             background: #fff3cd;
-
             border: 1px solid #ffeaa7;
-
             border-radius: 3px;
-
             font-size: 11px;
-
         }
-
     `);
-
     function getCurrentBasePath() {
-
         const currentUrl = new URL(window.location.href);
-
         return currentUrl.origin + currentUrl.pathname;
-
     }
-
     function createScannerUI() {
-
         const currentPath = getCurrentBasePath();
-
         const scannerUI = document.createElement('div');
-
         scannerUI.id = 'path-scanner-ui';
-
         scannerUI.innerHTML = `
-
             <div id="scanner-header">🛠️ 路径扫描器 (当前路径)<button id="hide-scanner">隐藏</button></div>
-
             <div class="current-url">扫描路径: <strong>${currentPath}/</strong></div>
-
             <div style="margin:5px 0;font-size:11px;color:#007bff;font-weight:bold">路径字典: ${pathDictionary.length} 个路径</div>
-
             <div style="margin:5px 0;font-size:11px;color:#666">正在扫描当前路径下的子路径和文件</div>
-
             <div id="scan-controls">
-
                 <button id="scan-button">开始扫描</button>
-
                 <button id="stop-button" disabled>停止</button>
-
                 <button id="refresh-target">🔄 刷新</button>
-
             </div>
-
             <div id="scan-progress">
-
                 <div>就绪 - 共 ${pathDictionary.length} 个路径待扫描</div>
-
                 <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-
             </div>
-
             <div class="stats">
-
                 <div class="stat-item"><span class="stat-dot stat-success"></span> 真实页面: 0</div>
-
                 <div class="stat-item"><span class="stat-dot stat-warning"></span> 虚拟路径: 0</div>
-
                 <div class="stat-item"><span class="stat-dot stat-info"></span> 需要登录: 0</div>
-
                 <div class="stat-item"><span class="stat-dot stat-error"></span> 无权限: 0</div>
-
                 <div class="stat-item"><span class="stat-dot stat-redirect"></span> 重定向: 0</div>
-
             </div>
-
             <div id="scan-results">
-
                 <strong>扫描结果 (点击路径可访问):</strong>
-
                 <div id="results-container"></div>
-
             </div>
-
         `;
-
         const toggleBtn = document.createElement('button');
-
-        toggleBtn.id = 'scanner-toggle-btn';
-
-        toggleBtn.innerHTML = '🔍';
-
+        toggleBtn.id = 'scanner-toggle-btn';        
         toggleBtn.title = '显示扫描器';
-
         document.body.appendChild(scannerUI);
-
-        document.body.appendChild(toggleBtn);
-
-        document.getElementById('scan-button').addEventListener('click', startScan);
-
-        document.getElementById('stop-button').addEventListener('click', stopScan);
-
-        document.getElementById('hide-scanner').addEventListener('click', hideScanner);
-
-        document.getElementById('refresh-target').addEventListener('click', refreshTarget);
-
+        document.body.appendChild(toggleBtn);        document.getElementById('scan-button').addEventListener('click', startScan);        document.getElementById('stop-button').addEventListener('click', stopScan);        document.getElementById('hide-scanner').addEventListener('click', hideScanner);        document.getElementById('refresh-target').addEventListener('click', refreshTarget);
         toggleBtn.addEventListener('click', toggleScannerUI);
-
         let lastUrl = location.href;
-
         new MutationObserver(() => {
-
             const url = location.href;
-
             if (url !== lastUrl) {
-
                 lastUrl = url;
-
                 updateCurrentPathDisplay();
-
             }
-
         }).observe(document, {subtree: true, childList: true});
-
     }
-
     function updateCurrentPathDisplay() {
-
         const currentPath = getCurrentBasePath();
-
         const displayElement = document.querySelector('.current-url');
-
         if (displayElement) {
-
             displayElement.innerHTML = `扫描路径: <strong>${currentPath}/</strong>`;
-
         }
-
     }
-
     function refreshTarget() {
-
         if (isScanning && !confirm('扫描正在进行中，确定要停止并刷新吗？')) return;
-
-
-
-        stopScan();
-
-        document.getElementById('results-container').innerHTML = '';
-
+        stopScan();        document.getElementById('results-container').innerHTML = '';
         updateProgressBar(0);
-
         updateProgress(`已刷新 - 共 ${pathDictionary.length} 个路径待扫描`, 0);
-
         updateStats();
-
     }
-
     function hideScanner() {
-
         const scannerUI = document.getElementById('path-scanner-ui');
-
         const toggleBtn = document.getElementById('scanner-toggle-btn');
-
         scannerUI.classList.remove('visible');
-
         toggleBtn.style.display = 'flex';
-
         isUIVisible = false;
-
     }
-
     function toggleScannerUI() {
-
         const scannerUI = document.getElementById('path-scanner-ui');
-
         const toggleBtn = document.getElementById('scanner-toggle-btn');
-
         isUIVisible = !isUIVisible;
-
-
-
         if (isUIVisible) {
-
             scannerUI.classList.add('visible');
-
             toggleBtn.style.display = 'none';
-
         } else {
-
             scannerUI.classList.remove('visible');
-
             toggleBtn.style.display = 'flex';
-
         }
-
     }
-
     function startScan() {
-
         if (isScanning) return;
-
         isScanning = true;
-
         scannedCount = 0;
-
         foundPaths = [];
-
-        currentTimeoutIds = [];
-
-
-
-        document.getElementById('results-container').innerHTML = '';
-
+        currentTimeoutIds = [];        document.getElementById('results-container').innerHTML = '';
         document.getElementById('scan-button').disabled = true;
-
         document.getElementById('stop-button').disabled = false;
-
         updateProgressBar(0);
-
         const currentPath = getCurrentBasePath();
-
         updateProgress(`开始扫描: ${currentPath}/`, 0);
-
         pathDictionary.forEach((path, index) => {
-
             const timeoutId = setTimeout(() => {
-
                 if (!isScanning) return;
-
                 const testUrl = path === '' ? currentPath :
-
                     currentPath.endsWith('/') ? `${currentPath}${path}` : `${currentPath}/${path}`;
-
                 scanSinglePath(testUrl);
-
             }, index * 80);
-
             currentTimeoutIds.push(timeoutId);
-
         });
-
     }
 
     function stopScan() {
