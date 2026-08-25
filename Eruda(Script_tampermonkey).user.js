@@ -22,22 +22,15 @@
 
     }
 
-
     var script = document.createElement('script');
-
     script.id = 'eruda-script';
-
     script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-
 
     script.onload = function() {
 
         if (typeof eruda !== 'undefined') {
 
             eruda.init();
-
-
-
 
             var style = document.createElement('style');
 
