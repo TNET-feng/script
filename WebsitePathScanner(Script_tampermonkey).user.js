@@ -297,79 +297,40 @@
             currentTimeoutIds.push(timeoutId);
         });
     }
-
     function stopScan() {
-
         isScanning = false;
-
         currentTimeoutIds.forEach(id => clearTimeout(id));
-
         currentTimeoutIds = [];
-
-
-
         document.getElementById('scan-button').disabled = false;
-
         document.getElementById('stop-button').disabled = true;
-
         updateProgress(`扫描已停止 - 已完成 ${scannedCount}/${pathDictionary.length}`, scannedCount);
-
         updateStats();
-
     }
-
     function scanSinglePath(url) {
-
         GM_xmlhttpRequest({
-
             method: 'GET',
-
             url: url,
-
             timeout: 8000,
-
             onload: function(response) {
-
                 if (!isScanning) return;
-
-
-
                 scannedCount++;
-
                 const responseText = response.responseText.toLowerCase();
-
                 const isErrorPage = errorKeywords.some(keyword => responseText.includes(keyword));
-
                 const isLoginPage = loginKeywords.some(keyword => responseText.includes(keyword));
-
                 let resultType = '', reason = '', statusEmoji = '';
-
                 if (response.status === 200) {
-
                     if (isErrorPage) {
-
                         resultType = 'warning'; reason = '可能是虚拟路径'; statusEmoji = '⚠️';
-
                     } else if (isLoginPage) {
-
                         resultType = 'info'; reason = '需要登录'; statusEmoji = '🔐';
-
                     } else {
-
                         resultType = 'success'; reason = '真实页面'; statusEmoji = '✅';
-
                     }
-
                 } else if (response.status === 403 || response.status === 401) {
-
                     resultType = 'error'; reason = '无权限访问'; statusEmoji = '🚫';
-
                 } else if (response.status === 301 || response.status === 302) {
-
                     resultType = 'redirect'; reason = '重定向'; statusEmoji = '↪️';
-
                 }
-
                 if (resultType) {
                     foundPaths.push({url: url, status: response.status, type: resultType, reason: reason});
                     addResult(url, response.status, resultType, reason, statusEmoji);
