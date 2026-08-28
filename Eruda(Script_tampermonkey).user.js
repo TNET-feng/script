@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Eruda
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  Eruda
 // @author       FengPwner
 // @match        *://*/*
