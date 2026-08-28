@@ -10,6 +10,7 @@
 // @match        data:*
 // @include      *
 // @grant        none
+// @run-at       document-start
 // ==/UserScript==
 
 (function() {
