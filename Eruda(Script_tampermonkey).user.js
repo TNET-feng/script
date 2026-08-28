@@ -38,9 +38,23 @@
                     position: fixed !important;
                 }
             `;
-            document.head.appendChild(style);
+            if(document.head) {
+                 document.head.appendChild(style);
+            } else {
+                 document.documentElement.appendChild(style);
+            }
+
             console.log('Eruda is running!');
         }
     };
-    document.body.appendChild(script);
+
+   
+    if (document.documentElement) {
+        document.documentElement.appendChild(script);
+    } else {
+        
+        document.addEventListener('DOMContentLoaded', function() {
+             document.documentElement.appendChild(script);
+        });
+    }
 })();
